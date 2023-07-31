@@ -57,7 +57,7 @@
             const idRoom = inputIdRoom.value;
             const idPlayer = socket.id;
 
-            if (idRoom && inputNamePlayer) {
+            if (idRoom && namePlayer) {
               const dataPlayer = {namePlayer, idPlayer, idRoom};
 
               socket.emit('joinRoom', dataPlayer);
