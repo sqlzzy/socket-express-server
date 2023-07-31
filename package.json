@@ -1,0 +1,23 @@
+{
+  "name": "socket-express-server",
+  "version": "1.0.0",
+  "description": "Server on ExpressJS + Socket.io. Create room and enter player to rooms",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sqlzzy/socket-express-server.git"
+  },
+  "keywords": [
+    "ExpressJS",
+    "Socket.io"
+  ],
+  "author": "Sergey Osipov (sqlzzy)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sqlzzy/socket-express-server/issues"
+  },
+  "homepage": "https://github.com/sqlzzy/socket-express-server#readme"
+}
