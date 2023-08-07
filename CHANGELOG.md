@@ -34,3 +34,9 @@ All notable changes to this project will be documented in this file.
 - deleting a room from the server after the last player leaves the room
 - redirect to main page when creating a duplicate of /player/?
 - redirect to main page on page reload /player/?
+
+### Version 1.1.0 - 7.08.2023
+
+### Added
+
+- CHANGELOG.md
