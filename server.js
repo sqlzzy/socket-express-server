@@ -24,17 +24,27 @@ app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/main/index.html`);
 });
 
+function checkExistRoom(idRoom) {
+  return rooms.has(idRoom);
+}
+
 io.on('connection', (socket) => {
   socket.on('createRoom', () => {
     const idRoom = uuidv4();
     socket.emit('roomCreated', idRoom);
   });
 
+  socket.on('checkExistRoom', (idRoom) => {
+    const isExistRoom = checkExistRoom(idRoom);
+    
+    socket.emit('roomExist', isExistRoom);
+  });
+
   socket.on('joinRoom', (dataPlayer) => {
     socket.join(dataPlayer);
-
+ 
     const room = rooms.get(dataPlayer.idRoom) || { players: [], host: null };
-  
+
     if (!room.host) {
       room.host = dataPlayer.idPlayer;
       dataPlayer.host = 1;

@@ -53,16 +53,36 @@
 
         btnStart.addEventListener('click', () => {
             event.preventDefault();
+            const idRoom = inputIdRoom.value;
+
+            socket.emit('checkExistRoom', idRoom);
+        });
+
+        function createError(text) {
+          const spanError = document.createElement('span');
+          spanError.textContent = text;
+          spanError.style.color = 'red';
+          spanError.style.marginLeft = '12px';
+
+          return spanError;
+        }
+
+        socket.on('roomExist', (isExist) => {
             const namePlayer = inputNamePlayer.value
             const idRoom = inputIdRoom.value;
             const idPlayer = socket.id;
 
-            if (idRoom && namePlayer) {
-              const dataPlayer = {namePlayer, idPlayer, idRoom};
+            if (isExist) {
+              const spanError = createError('A room with that id already exists');
+              btnStart.insertAdjacentElement('afterend', spanError);
+            } else {
+              if (idRoom && namePlayer) {
+                const dataPlayer = {namePlayer, idPlayer, idRoom};
 
-              socket.emit('joinRoom', dataPlayer);
+                socket.emit('joinRoom', dataPlayer);
 
-              document.location.href = `${currentLocation}/player/?room=${idRoom}&player=${idPlayer}`;
+                document.location.href = `${currentLocation}/player/?room=${idRoom}&player=${idPlayer}`;
+              }
             }
         });
     </script>
