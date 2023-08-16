@@ -16,11 +16,15 @@ const rooms = new Map();
 
 app.use(express.static('public'));
 
-app.get('/player/?room=[\w\d\-]+&player=[\w\d\-]+', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/main/index.html`);
 });
 
-app.get('/', (req, res) => {
+app.get('/lobby/?room=[\w\d\-]+', (req, res) => {
+  res.sendFile(`${__dirname}/public/lobby/index.html`);
+});
+
+app.get('/player/?room=[\w\d\-]+&player=[\w\d\-]+', (req, res) => {
   res.sendFile(`${__dirname}/public/main/index.html`);
 });
 
@@ -58,6 +62,13 @@ io.on('connection', (socket) => {
     rooms.set(dataPlayer.idRoom, room);
 
     io.to(dataPlayer.idRoom).emit('playerList', room.players);
+  });
+
+  socket.on('checkPlayerList', (idRoom) => {
+    const room = rooms.get(idRoom);
+    if (room) {
+      socket.emit('playerList', room.players);
+    }
   });
 
   socket.on('stayInRoom', (dataPlayer) => {

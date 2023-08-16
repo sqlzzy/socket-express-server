@@ -5,9 +5,9 @@
   </head>
   <body>
     <h1>Player</h1>
-    <label for="id-room">ID room:</label>
-    <input type="text" id="id-room" size="42" maxlength="36" disabled>
-    <button id="copy-id-room-btn">Copy ID room</button>
+    <label for="link-room">Link room:</label>
+    <input type="text" id="link-room" size="42" maxlength="36" disabled>
+    <button id="copy-link-room-btn">Copy link room</button>
     <br>
     <br>
     Players:
@@ -19,22 +19,21 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
-      const inputIdRoom = document.querySelector('#id-room');
-      const btnCopyIdRoom = document.querySelector('#copy-id-room-btn');
+      const inputLinkRoom = document.querySelector('#link-room');
+      const btnCopyLinkRoom = document.querySelector('#copy-link-room-btn');
       const joinRoomForm = document.getElementById('joinRoomForm');
-      const roomIdInput = document.getElementById('roomId');
       const namePlayerInput = document.getElementById('namePlayer');
       const status = document.getElementById('status');
-      const roomID = location.hash.split('#')[1];
       const endRoundBtn = document.getElementById('endRound');
       let currentUrl = document.location.href;
+      const currentLocation = location.origin;
       const urlParams = new URLSearchParams(window.location.search);
       const idRoom = urlParams.get('room');
       const idPlayer = urlParams.get('player');
       const dataPlayer = {idRoom, idPlayer, currentUrl};
       let playersList;
 
-      inputIdRoom.value = idRoom;
+      inputLinkRoom.value = `${currentLocation}/lobby/?room=${idRoom}`;
 
       socket.emit('stayInRoom', dataPlayer);
 
@@ -57,9 +56,9 @@
         socket.emit('endRound', dataPlayer.idRoom);
       });
 
-      btnCopyIdRoom.addEventListener('click', () => {
+      btnCopyLinkRoom.addEventListener('click', () => {
         event.preventDefault();
-        navigator.clipboard.writeText(inputIdRoom.value);
+        navigator.clipboard.writeText(inputLinkRoom.value);
       });
 
       socket.on('redirect', (url) => {
