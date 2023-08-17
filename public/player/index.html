@@ -4,7 +4,7 @@
     <title>Player</title>
   </head>
   <body>
-    <h1>Player</h1>
+    <h1 id="title-page">Player</h1>
     <label for="link-room">Link room:</label>
     <input type="text" id="link-room" size="42" maxlength="36" disabled>
     <button id="copy-link-room-btn">Copy link room</button>
@@ -25,6 +25,7 @@
       const namePlayerInput = document.getElementById('namePlayer');
       const status = document.getElementById('status');
       const endRoundBtn = document.getElementById('endRound');
+      const titlePage = document.querySelector('#title-page');
       let currentUrl = document.location.href;
       const currentLocation = location.origin;
       const urlParams = new URLSearchParams(window.location.search);
@@ -36,6 +37,11 @@
       inputLinkRoom.value = `${currentLocation}/lobby/?room=${idRoom}`;
 
       socket.emit('stayInRoom', dataPlayer);
+
+      socket.on('getPlayerName', (namePlayer) => {
+        document.title = `Player ${namePlayer}`;
+        titlePage.textContent = `Player ${namePlayer}`;
+      });
 
       socket.on('playerList', (players) => {
         playersList = players;

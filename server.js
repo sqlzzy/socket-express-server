@@ -106,10 +106,22 @@ io.on('connection', (socket) => {
       }
 
       io.to(currentPlayer.idRoom).emit('playerList', room.players);
+      io.to(currentPlayer.idRoom).emit('getPlayerName', currentPlayer.namePlayer);
     } else {
       io.to(socket.id).emit('redirect', '/');
 
       return;
+    }
+  });
+
+  socket.on('emitPlayerName', (dataPlayer) => {
+    const room = rooms.get(dataPlayer.idRoom);
+    if(room) {
+      console.log(room.players)
+      console.log(dataPlayer.idPlayer)
+      const currentPlayer = room.players.find((player) => player.idPlayer === dataPlayer.idPlayer);
+      console.log(currentPlayer, 'currentPlayer');
+      //return currentPlayer.namePlayer;
     }
   });
 
