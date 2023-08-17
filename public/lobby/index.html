@@ -4,7 +4,7 @@
     <title>Lobby</title>
   </head>
   <body>
-    <h1>Lobby</h1>
+    <h1 id="title-page">Lobby</h1>
     <label for="link-room">Link room:</label>
     <input type="text" id="link-room" size="42" maxlength="36" disabled>
     <button id="copy-link-room-btn">Copy link room</button>
@@ -30,13 +30,17 @@
       const form = document.querySelector('#room-form');
       const inputNamePlayer = document.querySelector('#name-player');
       const btnStart = document.querySelector('#start-btn');
+      const titlePage = document.querySelector('#title-page');
       let currentUrl = document.location.href;
       const currentLocation = location.origin;
       const urlParams = new URLSearchParams(window.location.search);
       const idRoom = urlParams.get('room');
       let playersList;
 
-      inputLinkRoom.value = `${currentLocation}/player/?room=${idRoom}`;
+      document.title = `Lobby room ${idRoom}`;
+      titlePage.textContent = `Lobby room ${idRoom}`;
+
+      inputLinkRoom.value = `${currentLocation}/lobby/?room=${idRoom}`;
 
       setTimeout(function checkPlayerList() {
         socket.emit('checkPlayerList', idRoom);
@@ -88,6 +92,10 @@
           const spanError = createError('Player name not entered');
           btnStart.insertAdjacentElement('afterend', spanError);
         }
+      });
+
+      socket.on('redirect', (url) => {
+        document.location.href = url;
       });
     </script>
   </body>
