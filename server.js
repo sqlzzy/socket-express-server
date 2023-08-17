@@ -106,7 +106,7 @@ io.on('connection', (socket) => {
       }
 
       io.to(currentPlayer.idRoom).emit('playerList', room.players);
-      io.to(currentPlayer.idRoom).emit('getPlayerName', currentPlayer.namePlayer);
+      io.to(socket.id).emit('getPlayerName', currentPlayer.namePlayer);
     } else {
       io.to(socket.id).emit('redirect', '/');
 
