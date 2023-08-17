@@ -14,17 +14,14 @@
     <div id="player-list"></div>
     <br>
     <br>
-    <button style="display: none;" id="endRound">End round!</button>
+    <button style="display: none;" id="end-round">End round!</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
       const inputLinkRoom = document.querySelector('#link-room');
       const btnCopyLinkRoom = document.querySelector('#copy-link-room-btn');
-      const joinRoomForm = document.getElementById('joinRoomForm');
-      const namePlayerInput = document.getElementById('namePlayer');
-      const status = document.getElementById('status');
-      const endRoundBtn = document.getElementById('endRound');
+      const endRoundBtn = document.getElementById('end-round');
       const titlePage = document.querySelector('#title-page');
       let currentUrl = document.location.href;
       const currentLocation = location.origin;
