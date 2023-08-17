@@ -63,6 +63,7 @@
           spanError.textContent = text;
           spanError.style.color = 'red';
           spanError.style.marginLeft = '12px';
+          spanError.setAttribute('id', 'error-message');
 
           return spanError;
         }
@@ -71,6 +72,11 @@
             const namePlayer = inputNamePlayer.value
             const idRoom = inputIdRoom.value;
             const idPlayer = socket.id;
+            const errorMessage = document.getElementById('error-message');
+
+            if (errorMessage) {
+              errorMessage.textContent = '';
+            }
 
             if (isExist) {
               const spanError = createError('A room with that id already exists');
@@ -82,6 +88,15 @@
                 socket.emit('joinRoom', dataPlayer);
 
                 document.location.href = `${currentLocation}/player/?room=${idRoom}&player=${idPlayer}`;
+              } else if (!idRoom && !namePlayer) {
+                const spanError = createError('Player name and room id not entered');
+                btnStart.insertAdjacentElement('afterend', spanError);
+              } else if (!idRoom) {
+                const spanError = createError('Room id not entered');
+                btnStart.insertAdjacentElement('afterend', spanError);
+              } else if (!namePlayer) {
+                const spanError = createError('Player name not entered');
+                btnStart.insertAdjacentElement('afterend', spanError);
               }
             }
         });
