@@ -38,7 +38,10 @@
 
       inputLinkRoom.value = `${currentLocation}/player/?room=${idRoom}`;
 
-      socket.emit('checkPlayerList', idRoom);
+      setTimeout(function checkPlayerList() {
+        socket.emit('checkPlayerList', idRoom);
+        setTimeout(checkPlayerList, 1000);
+      }, 1000);
 
       socket.on('playerList', (players) => {
         playersList = players;
