@@ -37,7 +37,7 @@ function checkExistRoom(idRoom) {
 }
 
 io.on('connection', (socket) => {
-  createRoom(socket);
+  socket.on('createRoom', () => createRoom(socket));
 
   socket.on('checkExistRoom', (idRoom) => {
     const isExistRoom = checkExistRoom(idRoom);
