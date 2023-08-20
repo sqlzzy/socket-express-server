@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import createRoom from './src/server/sockets/createRoom.js';
+import checkExistRoom from './src/server/sockets/checkExistRoom.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -32,18 +33,10 @@ app.use((req, res, next) => {
   res.status(404).sendFile(`${__dirname}/public/404/index.html`);
 });
 
-function checkExistRoom(idRoom) {
-  return rooms.has(idRoom);
-}
-
 io.on('connection', (socket) => {
   socket.on('createRoom', () => createRoom(socket));
 
-  socket.on('checkExistRoom', (idRoom) => {
-    const isExistRoom = checkExistRoom(idRoom);
-    
-    socket.emit('roomExist', isExistRoom);
-  });
+  socket.on('checkExistRoom', (idRoom) => checkExistRoom(socket, rooms, idRoom));
 
   socket.on('joinRoom', (dataPlayer) => {
     socket.join(dataPlayer);
