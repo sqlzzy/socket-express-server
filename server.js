@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { v4 as uuidv4 } from 'uuid';
+import createRoom from './src/server/sockets/createRoom.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -37,10 +37,7 @@ function checkExistRoom(idRoom) {
 }
 
 io.on('connection', (socket) => {
-  socket.on('createRoom', () => {
-    const idRoom = uuidv4();
-    socket.emit('roomCreated', idRoom);
-  });
+  createRoom(socket);
 
   socket.on('checkExistRoom', (idRoom) => {
     const isExistRoom = checkExistRoom(idRoom);
