@@ -28,6 +28,10 @@ app.get('/player/?room=[\w\d\-]+&player=[\w\d\-]+', (req, res) => {
   res.sendFile(`${__dirname}/public/main/index.html`);
 });
 
+app.use((req, res, next) => {
+  res.status(404).sendFile(`${__dirname}/public/404/index.html`);
+});
+
 function checkExistRoom(idRoom) {
   return rooms.has(idRoom);
 }
