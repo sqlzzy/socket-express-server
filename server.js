@@ -6,6 +6,7 @@ import { dirname } from 'path';
 import createRoom from './src/server/sockets/createRoom.js';
 import checkExistRoom from './src/server/sockets/checkExistRoom.js';
 import joinRoom from './src/server/sockets/joinRoom.js';
+import checkPlayerList from './src/server/sockets/checkPlayerList.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -41,12 +42,7 @@ io.on('connection', (socket) => {
 
   socket.on('joinRoom', (dataPlayer) => joinRoom(socket, rooms, io, dataPlayer));
 
-  socket.on('checkPlayerList', (idRoom) => {
-    const room = rooms.get(idRoom);
-    if (room) {
-      socket.emit('playerList', room.players);
-    }
-  });
+  socket.on('checkPlayerList', (idRoom) => checkPlayerList(socket, rooms, idRoom));
 
   socket.on('stayInRoom', (dataPlayer) => {
     const room = rooms.get(dataPlayer.idRoom);
