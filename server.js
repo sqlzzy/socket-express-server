@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import createRoom from './src/server/sockets/createRoom.js';
 import checkExistRoom from './src/server/sockets/checkExistRoom.js';
+import joinRoom from './src/server/sockets/joinRoom.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -38,25 +39,7 @@ io.on('connection', (socket) => {
 
   socket.on('checkExistRoom', (idRoom) => checkExistRoom(socket, rooms, idRoom));
 
-  socket.on('joinRoom', (dataPlayer) => {
-    socket.join(dataPlayer);
- 
-    const room = rooms.get(dataPlayer.idRoom) || { players: [], host: null };
-
-    if (!room.host) {
-      room.host = dataPlayer.idPlayer;
-      dataPlayer.host = 1;
-      io.to(room.host).emit('becomeHost', dataPlayer.host);
-    } else {
-      dataPlayer.host = 0;
-    }
-
-    room.players.push(dataPlayer);
-
-    rooms.set(dataPlayer.idRoom, room);
-
-    io.to(dataPlayer.idRoom).emit('playerList', room.players);
-  });
+  socket.on('joinRoom', (dataPlayer) => joinRoom(socket, rooms, io, dataPlayer));
 
   socket.on('checkPlayerList', (idRoom) => {
     const room = rooms.get(idRoom);
