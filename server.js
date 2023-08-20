@@ -7,6 +7,7 @@ import createRoom from './src/server/sockets/createRoom.js';
 import checkExistRoom from './src/server/sockets/checkExistRoom.js';
 import joinRoom from './src/server/sockets/joinRoom.js';
 import checkPlayerList from './src/server/sockets/checkPlayerList.js';
+import stayInRoom from './src/server/sockets/stayInRoom.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -44,48 +45,7 @@ io.on('connection', (socket) => {
 
   socket.on('checkPlayerList', (idRoom) => checkPlayerList(socket, rooms, idRoom));
 
-  socket.on('stayInRoom', (dataPlayer) => {
-    const room = rooms.get(dataPlayer.idRoom);
-
-    if (room) {
-      const isDoubleUrl = room.players.some((player) => player.currentUrl === dataPlayer.currentUrl);
-
-      if (isDoubleUrl) {
-        io.to(socket.id).emit('redirect', '/');
-
-        return;
-      }
-
-      socket.join(dataPlayer.idRoom);
-      const currentPlayer = room.players.find((player) => player.idPlayer === dataPlayer.idPlayer);
-
-
-      if (currentPlayer) {
-        currentPlayer.idPlayer = socket.id;
-        currentPlayer.currentUrl = dataPlayer.currentUrl;
-      } else {
-        io.to(socket.id).emit('redirect', '/');
-
-        return;
-      }
-
-      if (currentPlayer.host === 1) {
-        room.host = currentPlayer.idPlayer;
-        
-        currentPlayer.host = 1;
-        io.to(room.host).emit('becomeHost', currentPlayer.host);
-      } else {
-        currentPlayer.host = 0;
-      }
-
-      io.to(currentPlayer.idRoom).emit('playerList', room.players);
-      io.to(socket.id).emit('getPlayerName', currentPlayer.namePlayer);
-    } else {
-      io.to(socket.id).emit('redirect', '/');
-
-      return;
-    }
-  });
+  socket.on('stayInRoom', (dataPlayer) => stayInRoom(socket, rooms, io, dataPlayer));
 
   socket.on('emitPlayerName', (dataPlayer) => {
     const room = rooms.get(dataPlayer.idRoom);
