@@ -8,6 +8,7 @@ import checkExistRoom from './src/server/sockets/checkExistRoom.js';
 import joinRoom from './src/server/sockets/joinRoom.js';
 import checkPlayerList from './src/server/sockets/checkPlayerList.js';
 import stayInRoom from './src/server/sockets/stayInRoom.js';
+import endRound from './src/server/sockets/endRound.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -47,52 +48,7 @@ io.on('connection', (socket) => {
 
   socket.on('stayInRoom', (dataPlayer) => stayInRoom(socket, rooms, io, dataPlayer));
 
-  socket.on('emitPlayerName', (dataPlayer) => {
-    const room = rooms.get(dataPlayer.idRoom);
-    if(room) {
-      console.log(room.players)
-      console.log(dataPlayer.idPlayer)
-      const currentPlayer = room.players.find((player) => player.idPlayer === dataPlayer.idPlayer);
-      console.log(currentPlayer, 'currentPlayer');
-      //return currentPlayer.namePlayer;
-    }
-  });
-
-  socket.on('endRound', (roomId) => {
-    const room = rooms.get(roomId);
-
-    if (room.host === socket.id && room.players.length > 1) {
-      const currentHost = room.players.find(player => player.idPlayer === room.host);
-      const indexCurrentHost = room.players.findIndex(player => player.host === 1);
-      let nextHost;
-
-      if (indexCurrentHost === room.players.length - 1) {
-        nextHost = room.players[0];
-      } else {
-        nextHost = room.players[indexCurrentHost+1];
-      }
-
-      const updatedPlayers = room.players.map(player => {
-        if (player.host === 1) {
-          return { ...player, host: 0 };
-        }
-
-        return player;
-      });
-
-      if (nextHost) {
-        room.host = nextHost.idPlayer;
-        currentHost.host = 0;
-        nextHost.host = 1;
-
-        io.to(nextHost.idPlayer).emit('becomeHost');
-        io.to(currentHost.idPlayer).emit('endBecomeHost');
-      }
-
-      room.players = updatedPlayers;
-      io.to(nextHost.idRoom).emit('playerList', room.players);
-    }
-  });
+  socket.on('endRound', (roomId) => endRound(socket, rooms, io, roomId));
 
   socket.on('disconnect', () => {
     for (const [idRoom, room] of rooms) {
