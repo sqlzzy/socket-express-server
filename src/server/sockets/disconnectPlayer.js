@@ -21,10 +21,10 @@ function isHostCurrentPlayer(currentPlayer) {
 function disconnectPlayer(socket, rooms, io) {
   for (const [idRoom, room] of rooms) {
     if (room) {
-      let roomPlayers = room.players;
-      let roomHost = room.host;
-      const numberOfPlayers = roomPlayers.length;
-      const socketId = socket.id;
+      let roomPlayers = room?.players;
+      let roomHost = room?.host;
+      const numberOfPlayers = roomPlayers?.length;
+      const socketId = socket?.id;
       const currentHost = findHost(roomPlayers, roomHost);
       const indexHost = findIndexHost(roomPlayers, roomHost);
       const currentPlayer = findCurrentPlayer(roomPlayers, socketId);
@@ -34,10 +34,10 @@ function disconnectPlayer(socket, rooms, io) {
       if (isHostCurrentPlayer(currentPlayer) && numberOfPlayers >= 2 && currentPlayer?.currentUrl) {
         nextHost = roomPlayers[(indexHost + 1) % numberOfPlayers];
 
-        roomPlayers = updatePlayersData(roomPlayers, socketId);;
+        roomPlayers = updatePlayersData(roomPlayers, socketId);
 
-        if (nextHost) {
-          roomHost = nextHost.idPlayer;
+        if (nextHost && currentHost) {
+          roomHost = nextHost?.idPlayer;
           currentHost.host = 0;
           nextHost.host = 1;
 
