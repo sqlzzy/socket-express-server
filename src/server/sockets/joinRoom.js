@@ -8,11 +8,11 @@ function joinRoom(socket, rooms, io, dataPlayer) {
     socket.join(player);
 
     if (!room.host) {
-      room.host = idPlayer;
-      player.host = 1;
-      io.to(room.host).emit('becomeHost', player.host);
+        room.host = idPlayer;
+        player.host = 1;
+        io.to(room.host).emit('becomeHost', player.host);
     } else {
-      player.host = 0;
+        player.host = 0;
     }
 
     playersRoom.push(player);

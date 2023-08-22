@@ -38,9 +38,9 @@ function stayInRoom(socket, rooms, io, dataPlayer) {
 
             if (currentPlayer.host) {
                 room.host = currentPlayer.idPlayer;
-    
+
                 currentPlayer.host = 1;
-    
+
                 io.to(room.host).emit('becomeHost', currentPlayer.host);
             } else {
                 currentPlayer.host = 0;
