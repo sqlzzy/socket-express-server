@@ -9,6 +9,7 @@ import joinRoom from './src/server/sockets/joinRoom.js';
 import checkPlayerList from './src/server/sockets/checkPlayerList.js';
 import stayInRoom from './src/server/sockets/stayInRoom.js';
 import endRound from './src/server/sockets/endRound.js';
+import disconnectPlayer from './src/server/sockets/disconnectPlayer.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -50,63 +51,7 @@ io.on('connection', (socket) => {
 
   socket.on('endRound', (roomId) => endRound(socket, rooms, io, roomId));
 
-  socket.on('disconnect', () => {
-    for (const [idRoom, room] of rooms) {
-      if (room) {
-        let roomPlayers = room.players;
-        const currentHost = roomPlayers.filter(player => player.idPlayer === room.host);
-        const indexCurrentHost = roomPlayers.findIndex(player => player.host === 1);
-        const currentPlayer = roomPlayers.find(player => player.idPlayer === socket.id);
-        const isHostCurrentPlayer = currentPlayer?.host === 1 ? 1 : 0;
-        let nextHost;
-        let updatedData = roomPlayers;
-
-        if (isHostCurrentPlayer && roomPlayers.length >= 2 && currentPlayer?.currentUrl) {
-            if (indexCurrentHost === roomPlayers.length - 1) {
-              nextHost = roomPlayers[0];
-            } else {
-              nextHost = roomPlayers[indexCurrentHost+1];
-            }
-  
-            updatedData = roomPlayers.filter((player) => player.idPlayer !== socket.id);
-            roomPlayers = updatedData;
-      
-            if (nextHost) {
-              room.host = nextHost.idPlayer;
-              currentHost.host = 0;
-              nextHost.host = 1;
-      
-              io.to(nextHost.idPlayer).emit('becomeHost', nextHost.host);
-            }
-
-            io.to(nextHost.idRoom).emit('playerList', roomPlayers);
-        } else if (isHostCurrentPlayer && roomPlayers.length === 1 && currentPlayer?.currentUrl) {
-          updatedData = roomPlayers.filter((player) => player.idPlayer !== socket.id);
-
-          if (updatedData.length === 0) {
-            rooms.delete(idRoom);
-          }
-
-          roomPlayers = updatedData;
-          
-        } else if (room.host !== socket.id && roomPlayers.length >= 2 && currentHost && currentPlayer?.currentUrl) {
-
-          if (roomPlayers.length > 2) {
-            updatedData = roomPlayers.filter((player) => player.idPlayer !== socket.id);
-          } else if (roomPlayers.length === 2) {
-            updatedData = roomPlayers.filter((player) => player.idPlayer !== socket.id);
-          } else if (roomPlayers.length === 1) {
-            updatedData = roomPlayers.filter((player) => player.idPlayer !== socket.id);
-          }
-
-          roomPlayers = updatedData;
-        }
-        socket.leave(room);
-        room.players = roomPlayers;
-        io.to(idRoom).emit('playerList', room.players);
-      }
-    }
-  });
+  socket.on('disconnect', () => disconnectPlayer(socket, rooms, io));
 });
 
 httpServer.listen(9000, () => {
