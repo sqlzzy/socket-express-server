@@ -16,7 +16,9 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 const __filename = fileURLToPath(import.meta.url);
+console.log(__filename, '__filename')
 const __dirname = dirname(__filename);
+console.log(__dirname, '__dirname')
 
 const rooms = new Map();
 
@@ -34,7 +36,7 @@ app.get('/player/?room=[\w\d\-]+&player=[\w\d\-]+', (req, res) => {
     res.sendFile(`${__dirname}/public/main/index.html`);
 });
 
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).sendFile(`${__dirname}/public/404/index.html`);
 });
 
