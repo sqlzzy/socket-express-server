@@ -3,41 +3,48 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import createRoom from './src/server/sockets/createRoom.js';
-import checkExistRoom from './src/server/sockets/checkExistRoom.js';
-import joinRoom from './src/server/sockets/joinRoom.js';
-import checkPlayerList from './src/server/sockets/checkPlayerList.js';
-import stayInRoom from './src/server/sockets/stayInRoom.js';
-import endRound from './src/server/sockets/endRound.js';
-import disconnectPlayer from './src/server/sockets/disconnectPlayer.js';
+import createRoom from './server/sockets/createRoom.js';
+import checkExistRoom from './server/sockets/checkExistRoom.js';
+import joinRoom from './server/sockets/joinRoom.js';
+import checkPlayerList from './server/sockets/checkPlayerList.js';
+import stayInRoom from './server/sockets/stayInRoom.js';
+import endRound from './server/sockets/endRound.js';
+import disconnectPlayer from './server/sockets/disconnectPlayer.js';
+import {
+    MAIN_PAGE_URL,
+    PATH_TO_MAIN_PAGE,
+    REGEXP_URL_LOBBY_PAGE,
+    PATH_TO_LOBBY_PAGE,
+    REGEXP_URL_PLAYER_PAGE,
+    PATH_TO_PLAYER_PAGE,
+    PATH_TO_404_PAGE,
+    SERVER_PORT,
+} from './constants.js';
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 const __filename = fileURLToPath(import.meta.url);
-console.log(__filename, '__filename')
 const __dirname = dirname(__filename);
-console.log(__dirname, '__dirname')
-
 const rooms = new Map();
 
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`));
 
-app.get('/', (req, res) => {
-    res.sendFile(`${__dirname}/public/main/index.html`);
+app.get(MAIN_PAGE_URL, (req, res) => {
+    res.sendFile(`${__dirname}${PATH_TO_MAIN_PAGE}`);
 });
 
-app.get('/lobby/?room=[\w\d\-]+', (req, res) => {
-    res.sendFile(`${__dirname}/public/lobby/index.html`);
+app.get(REGEXP_URL_LOBBY_PAGE, (req, res) => {
+    res.sendFile(`${__dirname}${PATH_TO_LOBBY_PAGE}`);
 });
 
-app.get('/player/?room=[\w\d\-]+&player=[\w\d\-]+', (req, res) => {
-    res.sendFile(`${__dirname}/public/main/index.html`);
+app.get(REGEXP_URL_PLAYER_PAGE, (req, res) => {
+    res.sendFile(`${__dirname}${PATH_TO_PLAYER_PAGE}`);
 });
 
 app.use((req, res) => {
-    res.status(404).sendFile(`${__dirname}/public/404/index.html`);
+    res.status(404).sendFile(`${__dirname}${PATH_TO_404_PAGE}`);
 });
 
 io.on('connection', (socket) => {
@@ -56,6 +63,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => disconnectPlayer(socket, rooms, io));
 });
 
-httpServer.listen(9000, () => {
-    console.log('listening on *:9000');
+httpServer.listen(SERVER_PORT, () => {
+    console.log(`listening on *:${SERVER_PORT}`);
 });
