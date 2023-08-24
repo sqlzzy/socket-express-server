@@ -1,24 +1,14 @@
 function endRound(socket, rooms, io, roomId) {
     const room = rooms.get(roomId);
+    let {players: roomPlayers, host: roomHost} = room;
+    const numberOfPlayers = roomPlayers?.length;
+    const socketId = socket.id;
 
-    if (room.host === socket.id && room.players.length > 1) {
-        const currentHost = room.players.find(player => player.idPlayer === room.host);
-        const indexCurrentHost = room.players.findIndex(player => player.host === 1);
-        let nextHost;
-
-        if (indexCurrentHost === room.players.length - 1) {
-            nextHost = room.players[0];
-        } else {
-            nextHost = room.players[indexCurrentHost + 1];
-        }
-
-        const updatedPlayers = room.players.map(player => {
-            if (player.host === 1) {
-                return { ...player, host: 0 };
-            }
-
-            return player;
-        });
+    if (roomHost === socketId && numberOfPlayers > 1) {
+        const indexCurrentHost = roomPlayers.findIndex(player => player.host === 1);
+        const nextHostIndex = (indexCurrentHost + 1) % numberOfPlayers;
+        const nextHost = roomPlayers[nextHostIndex];
+        const currentHost = roomPlayers[indexCurrentHost];
 
         if (nextHost) {
             room.host = nextHost.idPlayer;
@@ -26,11 +16,9 @@ function endRound(socket, rooms, io, roomId) {
             nextHost.host = 1;
 
             io.to(nextHost.idPlayer).emit('becomeHost');
+            io.to(nextHost.idRoom).emit('playerList', roomPlayers);
             io.to(currentHost.idPlayer).emit('endBecomeHost');
         }
-
-        room.players = updatedPlayers;
-        io.to(nextHost.idRoom).emit('playerList', room.players);
     }
 }
 
