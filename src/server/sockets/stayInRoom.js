@@ -1,5 +1,5 @@
-function checkDoubleUrl(playersRoom, currentUrlPlayer) {
-    return playersRoom.some((player) => player.currentUrl === currentUrlPlayer);
+function checkDoubleUrl(playersRoom, currentUrl) {
+    return playersRoom.some((player) => player.currentUrl === currentUrl);
 }
 
 function findCurrentPlayer(playersRoom, idPlayer) {
@@ -14,15 +14,13 @@ function redirectToMainPage(idSocket, io) {
 
 function stayInRoom(socket, rooms, io, dataPlayer) {
     const player = dataPlayer;
-    const idPlayer = player.idPlayer;
-    const idRoom = player.idRoom;
-    const currentUrlPlayer = player.currentUrl;
+    const { idPlayer, idRoom, currentUrl } = player;
     const idSocket = socket.id;
     const room = rooms.get(idRoom);
 
     if (room) {
         const playersRoom = room.players;
-        const isDoubleUrl = checkDoubleUrl(playersRoom, currentUrlPlayer);
+        const isDoubleUrl = checkDoubleUrl(playersRoom, currentUrl);
 
         if (isDoubleUrl) {
             redirectToMainPage(idSocket, io);
@@ -34,7 +32,7 @@ function stayInRoom(socket, rooms, io, dataPlayer) {
 
         if (currentPlayer) {
             currentPlayer.idPlayer = idSocket;
-            currentPlayer.currentUrl = currentUrlPlayer;
+            currentPlayer.currentUrl = currentUrl;
 
             if (currentPlayer.host) {
                 room.host = currentPlayer.idPlayer;
