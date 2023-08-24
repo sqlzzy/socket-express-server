@@ -1,7 +1,6 @@
 function joinRoom(socket, rooms, io, dataPlayer) {
     const player = dataPlayer;
-    const idPlayer = dataPlayer.idPlayer;
-    const idRoom = dataPlayer.idRoom;
+    const { idPlayer, idRoom } = player;
     const room = rooms.get(idRoom) || { players: [], host: null };
     const playersRoom = room.players;
 
@@ -23,4 +22,3 @@ function joinRoom(socket, rooms, io, dataPlayer) {
 }
 
 export default joinRoom;
-
