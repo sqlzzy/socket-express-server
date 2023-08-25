@@ -1,4 +1,5 @@
-import { createError } from '/common/js/createError.js';
+import createError from '/common/js/createError.js';
+import { copyToClipboard } from '/common/js/copyToClipboard';
 
 function showErrorAfterElement(errorText, element) {
     const spanError = createError(errorText);
@@ -26,9 +27,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         inputIdRoom.value = idRoom;
     });
 
-    btnCopyIdRoom.addEventListener('click', () => {
-        navigator.clipboard.writeText(inputIdRoom.value);
-    });
+    copyToClipboard(inputIdRoom.value, btnCopyIdRoom);
 
     btnStart.addEventListener('click', () => {
         const idRoom = inputIdRoom.value;

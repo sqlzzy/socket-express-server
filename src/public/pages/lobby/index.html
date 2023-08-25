@@ -61,10 +61,7 @@
         });
       });
 
-      btnCopyLinkRoom.addEventListener('click', () => {
-        event.preventDefault();
-        navigator.clipboard.writeText(inputLinkRoom.value);
-      });
+      copyToClipboard(inputLinkRoom.value, btnCopyLinkRoom);
 
       function createError(text) {
         const spanError = document.createElement('span');
