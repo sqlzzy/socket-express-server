@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+  <head>
+    <title>Main page</title>
+  </head>
+  <body>
+    <h1>Main page</h1>
+    <form>
+      <label for="name-player">Your name:</label>
+      <input type="text" id="name-player" size="10" maxlength="10" required>
+      <br>
+      <br>
+      <button id="create-room-btn">Create room</button>
+      <span id="text-enter">or enter</span>
+      <label for="id-room">ID room</label>
+      <input type="text" id="id-room" size="42" maxlength="36" required>
+      <button style="display:none;" id="copy-id-room-btn">Copy ID room</button>
+      <br>
+      <br>
+      <button id="start-btn" type="submit">Go!</button>
+    </form>
+    <br>
+    <br>
+    
+    <div id="player-list"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="pages/main/index.js"></script>
+  </body>
+</html>

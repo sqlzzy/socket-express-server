@@ -1,4 +1,4 @@
-function createError(text) {
+export function createError(text) {
     const spanError = document.createElement('span');
     spanError.textContent = text;
     spanError.style.color = 'red';
@@ -7,5 +7,3 @@ function createError(text) {
 
     return spanError;
 }
-
-export default createError;

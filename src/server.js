@@ -29,7 +29,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rooms = new Map();
 
+app.use(express.static(__dirname));
 app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/public/pages`));
+app.use(express.static(`${__dirname}/common`));
+
 
 app.get(MAIN_PAGE_URL, (req, res) => {
     res.sendFile(`${__dirname}${PATH_TO_MAIN_PAGE}`);
