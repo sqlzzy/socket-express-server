@@ -19,7 +19,7 @@ import {
     PATH_TO_PLAYER_PAGE,
     PATH_TO_404_PAGE,
     SERVER_PORT,
-} from './constants.js';
+} from './common/js/constants.js';
 
 const app = express();
 const httpServer = createServer(app);
