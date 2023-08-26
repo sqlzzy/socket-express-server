@@ -21,7 +21,7 @@ All notable changes to this project will be documented in this file.
 - replacing the manually entered character set in the "ID room" field with the generated character set after clicking on the "Create room" button
 - a button to copy ID room
 - copy ID room from the "ID room" field to the clipboard after clicking on the "Copy ID room" button
-- go to the /player/ page? after filling in the "Your name" and "ID room" fields and clicking on the "Go!" button
+- go to the /player/ page after filling in the "Your name" and "ID room" fields and clicking on the "Go!" button
 
 **Player page**
 
@@ -40,3 +40,44 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - CHANGELOG.md
+
+### Version 2.0.0 - 27.08.2023
+
+### Added
+
+- lobby page
+- display errors:
+    if room id exists;
+    if room id and name player not entered;
+    if room id or name player not entered.
+- real-time display of the list of players in the room
+- 404 page
+- src/server/sockets, where files with functions for socket.io event processing are located
+- new file structure
+- src/common/, where common files for pages are located
+
+**Lobby page**
+
+- check for filling in the "Your name" field before a user enters the room
+- 10-character limit for the "Your name" field
+- a button to copy ID room
+- copy ID room from the "ID room" field to the clipboard after clicking on the "Copy ID room" button
+- go to the /player/ page after filling in the "Your name" and "ID room" fields and clicking on the "Go!" button
+- real-time display of the list of players in the room
+- title page
+
+### Changed
+
+- replaced public folder to src/
+- replaced server.js to src/
+
+**Main page**
+
+- display error "A room with that id already exists" if room id exists
+- display error "Player name and room id not entered" if room id and name player not entered
+- display error "Player name not entered" if name player not entered
+- display error "Room id not entered" if room id not entered
+
+**Player page**
+
+- change title page
