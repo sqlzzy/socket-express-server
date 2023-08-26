@@ -17,64 +17,6 @@
     <button style="display: none;" id="end-round">End round!</button>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-      const inputLinkRoom = document.querySelector('#link-room');
-      const btnCopyLinkRoom = document.querySelector('#copy-link-room-btn');
-      const endRoundBtn = document.getElementById('end-round');
-      const titlePage = document.querySelector('#title-page');
-      let currentUrl = document.location.href;
-      const currentLocation = location.origin;
-      const urlParams = new URLSearchParams(window.location.search);
-      const idRoom = urlParams.get('room');
-      const idPlayer = urlParams.get('player');
-      const dataPlayer = {idRoom, idPlayer, currentUrl};
-      let playersList;
-
-      inputLinkRoom.value = `${currentLocation}/lobby/?room=${idRoom}`;
-
-      socket.emit('stayInRoom', dataPlayer);
-
-      socket.on('getPlayerName', (namePlayer) => {
-        document.title = `Player ${namePlayer}`;
-        titlePage.textContent = `Player ${namePlayer}`;
-      });
-
-      socket.on('playerList', (players) => {
-        playersList = players;
-        const playerList = document.getElementById('player-list');
-        playerList.innerHTML = '';
-        players.forEach((player) => {
-          const hostPlayer = player.host === 1 ? 'Host' : '';
-
-          const playerDiv = document.createElement('div');
-          playerDiv.innerText = `${player.namePlayer} ${hostPlayer}`;
-          playerDiv.id = player.idPlayer;
-          
-          playerList.appendChild(playerDiv);
-        });
-      });
-
-      endRoundBtn.addEventListener('click', () => {
-        socket.emit('endRound', dataPlayer.idRoom);
-      });
-
-      btnCopyLinkRoom.addEventListener('click', () => {
-        event.preventDefault();
-        navigator.clipboard.writeText(inputLinkRoom.value);
-      });
-
-      socket.on('redirect', (url) => {
-        document.location.href = url;
-      });
-
-      socket.on('becomeHost', () => {
-        endRoundBtn.style.display = "block";
-      });
-
-      socket.on('endBecomeHost', () => {
-        endRoundBtn.style.display = "none";
-      });
-    </script>
+    <script type="module" src="/pages/player/index.js"></script>
   </body>
 </html>

@@ -1,5 +1,3 @@
-export function copyToClipboard(text, button) {
-    button.addEventListener('click', () => {
-        navigator.clipboard.writeText(text);
-    });
+export default function copyToClipboard(text) {
+    navigator.clipboard.writeText(text);
 }

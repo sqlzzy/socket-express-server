@@ -1,4 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
+import copyToClipboard from '/common/js/copyToClipboard.js';
+import showPlayerList from '/common/js/showPlayerList.js';
+import showElement from '/common/js/showElement.js';
+import hideElement from '/common/js/hideElement.js';
+
+document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
     const inputLinkRoom = document.querySelector('#link-room');
     const btnCopyLinkRoom = document.querySelector('#copy-link-room-btn');
@@ -8,9 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const idRoom = urlParams.get('room');
     const idPlayer = urlParams.get('player');
+    const currentUrl = document.location.href;
     const dataPlayer = { idRoom, idPlayer, currentUrl };
     const playerList = document.querySelector('#player-list');
-    let currentUrl = document.location.href;
 
     inputLinkRoom.value = `${currentLocation}/lobby/?room=${idRoom}`;
 
@@ -21,34 +26,19 @@ document.addEventListener("DOMContentLoaded", () => {
         titlePage.textContent = `Player ${namePlayer}`;
     });
 
-    socket.on('playerList', (players) => {
-        playerList.innerHTML = '';
-        players.forEach((player) => {
-            const hostPlayer = player.host === 1 ? 'Host' : '';
-
-            const playerDiv = document.createElement('div');
-            playerDiv.innerText = `${player.namePlayer} ${hostPlayer}`;
-            playerDiv.id = player.idPlayer;
-
-            playerList.appendChild(playerDiv);
-        });
-    });
+    socket.on('playerList', (players) => showPlayerList(playerList, players));
 
     endRoundBtn.addEventListener('click', () => {
         socket.emit('endRound', dataPlayer.idRoom);
     });
 
-    copyToClipboard(inputLinkRoom.value, btnCopyLinkRoom);
+    btnCopyLinkRoom.addEventListener('click', () => copyToClipboard(inputLinkRoom.value));
 
     socket.on('redirect', (url) => {
         document.location.href = url;
     });
 
-    socket.on('becomeHost', () => {
-        endRoundBtn.style.display = "block";
-    });
+    socket.on('becomeHost', () => showElement(endRoundBtn));
 
-    socket.on('endBecomeHost', () => {
-        endRoundBtn.style.display = "none";
-    });
+    socket.on('endBecomeHost', () => hideElement(endRoundBtn));
 });

@@ -8,14 +8,13 @@
     <label for="link-room">Link room:</label>
     <input type="text" id="link-room" size="42" maxlength="36" disabled>
     <button id="copy-link-room-btn">Copy link room</button>
-
-    <form id="lobby-form">
-        <label for="name-player">Your name:</label>
-        <input type="text" id="name-player" size="10" maxlength="10" required>
-        <br>
-        <br>
-        <button id="start-btn" type="submit">Go!</button>
-    </form>
+    <br>
+    <br>
+    <label for="name-player">Your name:</label>
+    <input type="text" id="name-player" size="10" maxlength="10" required>
+    <br>
+    <br>
+    <button id="start-btn" type="submit">Go!</button>
 
     <br>
     <br>
@@ -23,72 +22,6 @@
     <div id="player-list"></div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-      const inputLinkRoom = document.querySelector('#link-room');
-      const btnCopyLinkRoom = document.querySelector('#copy-link-room-btn');
-      const form = document.querySelector('#room-form');
-      const inputNamePlayer = document.querySelector('#name-player');
-      const btnStart = document.querySelector('#start-btn');
-      const titlePage = document.querySelector('#title-page');
-      const currentLocation = location.origin;
-      const urlParams = new URLSearchParams(window.location.search);
-      const idRoom = urlParams.get('room');
-      let playersList;
-
-      document.title = `Lobby room ${idRoom}`;
-      titlePage.textContent = `Lobby room ${idRoom}`;
-
-      inputLinkRoom.value = `${currentLocation}/lobby/?room=${idRoom}`;
-
-      setTimeout(function checkPlayerList() {
-        socket.emit('checkPlayerList', idRoom);
-        setTimeout(checkPlayerList, 1000);
-      }, 1000);
-
-      socket.on('playerList', (players) => {
-        playersList = players;
-        const playerList = document.getElementById('player-list');
-        playerList.innerHTML = '';
-        players.forEach((player) => {
-          const hostPlayer = player.host === 1 ? 'Host' : '';
-
-          const playerDiv = document.createElement('div');
-          playerDiv.innerText = `${player.namePlayer} ${hostPlayer}`;
-          playerDiv.id = player.idPlayer;
-          
-          playerList.appendChild(playerDiv);
-        });
-      });
-
-      copyToClipboard(inputLinkRoom.value, btnCopyLinkRoom);
-
-      function createError(text) {
-        const spanError = document.createElement('span');
-        spanError.textContent = text;
-        spanError.style.color = 'red';
-        spanError.style.marginLeft = '12px';
-        spanError.setAttribute('id', 'error-message');
-
-        return spanError;
-      }
-
-      btnStart.addEventListener('click', () => {
-        event.preventDefault();
-        const namePlayer = inputNamePlayer.value
-        const idPlayer = socket.id;
-
-        if (namePlayer) {
-            const dataPlayer = {namePlayer, idPlayer, idRoom};
-
-            socket.emit('joinRoom', dataPlayer);
-
-            document.location.href = `${currentLocation}/player/?room=${idRoom}&player=${idPlayer}`;
-        } else if (!namePlayer) {
-          const spanError = createError('Player name not entered');
-          btnStart.insertAdjacentElement('afterend', spanError);
-        }
-      });
-    </script>
+    <script type="module" src="/pages/lobby/index.js"></script>
   </body>
 </html>

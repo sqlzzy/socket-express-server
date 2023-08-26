@@ -1,12 +1,9 @@
-import createError from '/common/js/createError.js';
-import { copyToClipboard } from '/common/js/copyToClipboard';
+import showErrorAfterElement from '/common/js/showErrorAfterElement.js';
+import copyToClipboard from '/common/js/copyToClipboard.js';
+import showElement from '/common/js/showElement.js';
+import hideElement from '/common/js/hideElement.js';
 
-function showErrorAfterElement(errorText, element) {
-    const spanError = createError(errorText);
-    element.insertAdjacentElement('afterend', spanError);
-}
-
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
     const inputNamePlayer = document.querySelector('#name-player');
     const btnCreateRoom = document.querySelector('#create-room-btn');
@@ -21,25 +18,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     socket.on('roomCreated', (idRoom) => {
-        btnCreateRoom.style.display = "none";
-        textEnter.style.display = "none";
-        btnCopyIdRoom.style.display = "block";
+        showElement(btnCopyIdRoom);
+        hideElement(btnCreateRoom);
+        hideElement(textEnter);
         inputIdRoom.value = idRoom;
     });
 
-    copyToClipboard(inputIdRoom.value, btnCopyIdRoom);
+    btnCopyIdRoom.addEventListener('click', () => copyToClipboard(inputIdRoom.value));
 
     btnStart.addEventListener('click', () => {
-        const idRoom = inputIdRoom.value;
-
-        socket.emit('checkExistRoom', idRoom);
+        socket.emit('checkExistRoom', inputIdRoom.value);
     });
 
     socket.on('roomExist', (isExist) => {
         const namePlayer = inputNamePlayer.value
         const idRoom = inputIdRoom.value;
         const idPlayer = socket.id;
-        const errorMessage = document.getElementById('error-message');
+        const errorMessage = document.querySelector('#error-message');
 
         if (errorMessage) {
             errorMessage.textContent = '';
