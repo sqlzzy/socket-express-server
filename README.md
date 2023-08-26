@@ -11,16 +11,20 @@
      - ```npm i```
 
 ### Run project
+
   1) **Run local server**:
      - ```npm run start```<br/>
      *PORT: 9000*<br/>
   2) Go to http://localhost:9000/
 
 ### File structure
-- ```public``` -- folder with files 
-- ```public/main/``` -- folder with files for main page
-- ```public/player/``` -- folder with files for player page
-- ```server.js``` -- file with config server
+
+- ```src/``` -- folders and files projects
+- ```src/common/``` -- folders with common files for pages
+- ```src/public/pages/``` -- folders with files for pages
+- ```src/server/``` -- folders with files for server config
+- ```src/server/sockets``` -- folder with files for server sockets
+- ```src/server.js``` -- file config server
 
 ### Note
   Feedback and suggestions write to the [issue](https://github.com/sqlzzy/socket-express-server/issues).
