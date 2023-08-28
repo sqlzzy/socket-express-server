@@ -81,3 +81,9 @@ All notable changes to this project will be documented in this file.
 **Player page**
 
 - change title page
+
+### Version 2.1.0 - 28.08.2023
+
+### Fixed
+
+- transferring host rights to the next player after the current host leaves the room

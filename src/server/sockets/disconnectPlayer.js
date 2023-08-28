@@ -34,15 +34,15 @@ function disconnectPlayer(socket, rooms, io) {
             if (isHostCurrentPlayer(currentPlayer) && numberOfPlayers >= 2 && currentPlayer?.currentUrl) {
                 nextHost = roomPlayers[(indexHost + 1) % numberOfPlayers];
 
-                roomPlayers = updatePlayersData(roomPlayers, socketId);
-
-                if (nextHost && currentHost) {
-                    roomHost = nextHost?.idPlayer;
+                if (!!(nextHost && currentHost)) {
+                    room.host = nextHost?.idPlayer;
                     currentHost.host = 0;
                     nextHost.host = 1;
 
-                    io.to(nextHost.idPlayer).emit('becomeHost', nextHost.host);
+                    io.to(nextHost.idPlayer).emit('becomeHost');
                 }
+
+                roomPlayers = updatePlayersData(roomPlayers, socketId);
 
                 io.to(idRoom).emit('playerList', roomPlayers);
             } else if (isHostCurrentPlayer(currentPlayer) && numberOfPlayers === 1 && currentPlayer?.currentUrl) {
@@ -55,7 +55,6 @@ function disconnectPlayer(socket, rooms, io) {
                 roomPlayers = updatedPlayers;
 
             } else if (roomHost !== socketId && numberOfPlayers >= 2 && currentHost && currentPlayer?.currentUrl) {
-
                 if (numberOfPlayers > 2) {
                     updatedPlayers = updatePlayersData(roomPlayers, socketId);
                 } else if (numberOfPlayers === 2) {
