@@ -1,26 +1,53 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lobby</title>
+    <link rel="stylesheet" href="/common/style/main-style.css" />
+    <link rel="stylesheet" href="/pages/lobby/style.css" />
   </head>
   <body>
-    <h1 id="title-page">Lobby</h1>
-    <label for="link-room">Link room:</label>
-    <input type="text" id="link-room" size="42" maxlength="36" disabled>
-    <button id="copy-link-room-btn">Copy link room</button>
-    <br>
-    <br>
-    <label for="name-player">Your name:</label>
-    <input type="text" id="name-player" size="10" maxlength="10" required>
-    <br>
-    <br>
-    <button id="start-btn" type="submit">Go!</button>
-
-    <br>
-    <br>
-    Players in room:
-    <div id="player-list"></div>
-
+    <header>
+      <h1>Lobby</h1>
+    </header>
+    <main class="wrapper">
+      <section class="content">
+        <div class="name-player">
+          <label for="name-player-input">Name:</label>
+          <input
+            type="text"
+            class="input input_type_name-player"
+            id="name-player-input"
+            size="10"
+            maxlength="10"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="link-room">
+          <label for="link-room-input">Link room:</label>
+          <input
+            class="input input_type_link-room"
+            type="text"
+            id="link-room-input"
+            disabled
+          />
+          <button class="button button_type_copy-link" id="copy-link-btn">
+            Copy link room
+          </button>
+        </div>
+        <button class="button button_type_goto-room" id="goto-room-btn">
+          Go!
+        </button>
+      </section>
+      <section class="players">
+        <div class="players__content players__content_type_room">
+          <p class="players__title">Players in room:</p>
+          <ul class="players__list" id="players-room"></ul>
+        </div>
+      </section>
+    </main>
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/pages/lobby/index.js"></script>
   </body>

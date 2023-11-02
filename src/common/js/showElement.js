@@ -1,3 +1,7 @@
 export default function showElement(element) {
-    element.style.display = 'block';
+  if (element.classList.contains("hide")) {
+    element.classList.remove("hide");
+  }
+
+  element.classList.add("show");
 }

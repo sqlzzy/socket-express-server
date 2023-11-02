@@ -1,3 +1,7 @@
 export default function hideElement(element) {
-    element.style.display = 'none';
+  if (element.classList.contains("show")) {
+    element.classList.remove("show");
+  }
+
+  element.classList.add("hide");
 }

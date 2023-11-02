@@ -1,12 +1,13 @@
 export default function showPlayerList(element, players) {
-    element.innerHTML = '';
-    players.forEach((player) => {
-        const hostPlayer = player.host === 1 ? 'Host' : '';
+  element.innerHTML = "";
 
-        const playerDiv = document.createElement('div');
-        playerDiv.innerText = `${player.namePlayer} ${hostPlayer}`;
-        playerDiv.id = player.idPlayer;
+  players.forEach((player) => {
+    const hostPlayer = player.host === 1 ? "Host" : "";
 
-        element.appendChild(playerDiv);
-    });
+    const playerLi = document.createElement("li");
+    playerLi.innerText = `${player.namePlayer} ${hostPlayer}`;
+    playerLi.id = player.idPlayer;
+    playerLi.classList.add("player");
+    element.appendChild(playerLi);
+  });
 }

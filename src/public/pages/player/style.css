@@ -1,0 +1,137 @@
+.wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+
+.content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+}
+
+.link-room {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    position: relative;
+    min-height: 160px;
+}
+
+.info-room > div {
+    margin: 0 0 1.5rem;
+}
+
+.info-room > div:last-child {
+    margin: 0;
+}
+
+.input {
+    width: 100%;
+}
+
+.button_type_copy-link {
+    margin: 0.5rem 0 0;
+}
+
+.game {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin: 0 0 3rem;
+    padding: 0 0 3rem;
+    border-bottom: 1px dashed #000000;
+}
+
+.button_type_next-round {
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .wrapper {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        margin: 0 auto;
+        max-width: 900px;
+        width: 100%;
+        -webkit-box-pack: start;
+            -ms-flex-pack: start;
+                justify-content: flex-start;
+    }
+
+    .content {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        width: 100%;
+    }
+
+    .link-room {
+        width: calc(100% / 3);
+        margin: 0 1rem 0 0;
+        padding-right: 1rem;
+        border-right: 1px dashed #000000;
+    }
+
+    .players__content_type_room {
+        width: calc(100% / 3);
+    }
+
+    .players__content_type_round {
+        width: calc(100% / 3);
+        padding-left: 1rem;
+        border-left: 1px dashed #000000;
+        margin: 0 1rem 0 0;
+    }
+
+    .button_type_copy-link {
+        width: 100%;
+    }
+
+    .button_type_start-game {
+        margin: 0 auto;
+    }
+
+    .info-room {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: start;
+            -ms-flex-pack: start;
+                justify-content: flex-start;
+        width: 100%;
+        -ms-flex-item-align: center;
+            -ms-grid-row-align: center;
+            align-self: center;
+    }
+
+    .info-room > div {
+        margin: 0 1rem 0 0;
+    }
+}

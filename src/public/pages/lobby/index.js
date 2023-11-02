@@ -1,45 +1,53 @@
-import copyToClipboard from '/common/js/copyToClipboard.js';
-import showPlayerList from '/common/js/showPlayerList.js';
-import showErrorAfterElement from '/common/js/showErrorAfterElement.js';
+import copyToClipboard from "/common/js/copyToClipboard.js";
+import showPlayerList from "/common/js/showPlayerList.js";
+import showErrorAfterElement from "/common/js/showErrorAfterElement.js";
+import showMessageAfterElement from "/common/js/showMessageAfterElement.js";
+import removeElementAfterTimeout from "/common/js/removeElementAfterTimeout.js";
+import {
+  ERROR_NAME_NOT_ENTERED,
+  MESSAGE_COPIED,
+} from "/common/js/constants.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    const socket = io();
-    const inputLinkRoom = document.querySelector('#link-room');
-    const btnCopyLinkRoom = document.querySelector('#copy-link-room-btn');
-    const inputNamePlayer = document.querySelector('#name-player');
-    const btnStart = document.querySelector('#start-btn');
-    const titlePage = document.querySelector('#title-page');
-    const currentLocation = location.origin;
-    const urlParams = new URLSearchParams(window.location.search);
-    const idRoom = urlParams.get('room');
-    const playerList = document.querySelector('#player-list');
+document.addEventListener("DOMContentLoaded", () => {
+  const socket = io();
+  const namePlayerInput = document.querySelector("#name-player-input");
+  const linkRoomInput = document.querySelector("#link-room-input");
+  const copyLinkBtn = document.querySelector("#copy-link-btn");
+  const gotoRoomBtn = document.querySelector("#goto-room-btn");
+  const currentLocation = location.origin;
+  const urlParams = new URLSearchParams(window.location.search);
+  const idRoom = urlParams.get("room");
+  const playersRoomList = document.querySelector("#players-room");
 
-    document.title = `Lobby room ${idRoom}`;
-    titlePage.textContent = `Lobby room ${idRoom}`;
+  linkRoomInput.value = `${currentLocation}/lobby/?room=${idRoom}`;
 
-    inputLinkRoom.value = `${currentLocation}/lobby/?room=${idRoom}`;
+  setTimeout(function checkPlayersList() {
+    socket.emit("checkPlayersList", idRoom);
+    setTimeout(checkPlayersList, 2000);
+  }, 1000);
 
-    setTimeout(function checkPlayerList() {
-        socket.emit('checkPlayerList', idRoom);
-        setTimeout(checkPlayerList, 1000);
-    }, 1000);
+  socket.on("getRoomPlayersData", (data) => {
+    showPlayerList(playersRoomList, data.roomPlayers);
+  });
 
-    socket.on('playerList', (players) => showPlayerList(playerList, players));
+  copyLinkBtn.addEventListener("click", () => {
+    copyToClipboard(linkRoomInput.value);
+    showMessageAfterElement(MESSAGE_COPIED, copyLinkBtn);
+    removeElementAfterTimeout(document.querySelector("#info-message"), 1000);
+  });
 
-    btnCopyLinkRoom.addEventListener('click', () => copyToClipboard(inputLinkRoom.value));
+  gotoRoomBtn.addEventListener("click", () => {
+    const namePlayer = namePlayerInput.value;
+    const idPlayer = socket.id;
 
-    btnStart.addEventListener('click', () => {
-        const namePlayer = inputNamePlayer.value
-        const idPlayer = socket.id;
+    if (idRoom && namePlayer) {
+      socket.emit("joinToRoom", { namePlayer, idPlayer, idRoom });
 
-        if (namePlayer) {
-            const dataPlayer = { namePlayer, idPlayer, idRoom };
+      document.location.href = `${currentLocation}/player/?room=${idRoom}&player=${idPlayer}`;
+    } else if (!namePlayer) {
+      showErrorAfterElement(ERROR_NAME_NOT_ENTERED, namePlayerInput);
+    }
 
-            socket.emit('joinRoom', dataPlayer);
-
-            document.location.href = `${currentLocation}/player/?room=${idRoom}&player=${idPlayer}`;
-        } else if (!namePlayer) {
-            showErrorAfterElement('Player name not entered', btnStart);
-        }
-    });
+    removeElementAfterTimeout(document.querySelector("#error-message"), 2000);
+  });
 });

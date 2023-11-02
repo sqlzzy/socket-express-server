@@ -1,21 +1,54 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Player</title>
+    <link rel="stylesheet" href="/common/style/main-style.css" />
+    <link rel="stylesheet" href="/pages/player/style.css" />
   </head>
   <body>
-    <h1 id="title-page">Player</h1>
-    <label for="link-room">Link room:</label>
-    <input type="text" id="link-room" size="42" maxlength="36" disabled>
-    <button id="copy-link-room-btn">Copy link room</button>
-    <br>
-    <br>
-    Players:
-    <div id="player-list"></div>
-    <br>
-    <br>
-    <button style="display: none;" id="end-round">End round!</button>
-
+    <header>
+      <h1 id="subtitle-page">Player</h1>
+    </header>
+    <main class="wrapper">
+      <section class="game">
+        <button class="button button_type_start-game hide" id="start-game-btn">
+          Start
+        </button>
+        <span class="message message_type_wait hide" id="wait-info"></span>
+        <div class="game__result hide" id="game-result">
+          <button class="button button_type_next-round" id="next-round-btn">
+            Play again!
+          </button>
+        </div>
+      </section>
+      <section class="info-room">
+        <div class="link-room">
+          <label for="link-room-input">Link room:</label>
+          <input
+            class="input input_type_link-room"
+            type="text"
+            id="link-room-input"
+            disabled
+          />
+          <button class="button button_type_copy-link" id="copy-link-btn">
+            Copy link room
+          </button>
+        </div>
+        <div class="players__content players__content_type_room">
+          <p class="players__title">Players in the room:</p>
+          <ul class="players__list" id="players-room"></ul>
+        </div>
+        <div
+          class="players__content players__content_type_round hide"
+          id="players-round-info"
+        >
+          <p class="players__title">Players in the round:</p>
+          <ul class="players__list" id="players-round"></ul>
+        </div>
+      </section>
+    </main>
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/pages/player/index.js"></script>
   </body>

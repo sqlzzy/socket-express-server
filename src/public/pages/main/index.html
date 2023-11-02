@@ -1,24 +1,49 @@
 <!DOCTYPE html>
+<html lang="ru">
   <head>
-    <title>Main page</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Main</title>
+    <link rel="stylesheet" href="/common/style/main-style.css" />
+    <link rel="stylesheet" href="/pages/main/style.css" />
   </head>
   <body>
-    <h1>Main page</h1>
-      <label for="name-player">Your name:</label>
-      <input type="text" id="name-player" size="10" maxlength="10" required>
-      <br>
-      <br>
-      <button id="create-room-btn">Create room</button>
-      <span id="text-enter">or enter</span>
-      <label for="id-room">ID room</label>
-      <input type="text" id="id-room" size="42" maxlength="36" required>
-      <button style="display:none;" id="copy-id-room-btn">Copy ID room</button>
-      <br>
-      <br>
-      <button id="start-btn" type="submit">Go!</button>
-    <br>
-    <br>
-
+    <header>
+      <h1>Main</h1>
+    </header>
+    <main class="wrapper">
+      <section class="content">
+        <div class="name-player">
+          <label for="name-player-input">Name:</label>
+          <input
+            type="text"
+            class="input input_type_name-player"
+            id="name-player-input"
+            size="10"
+            maxlength="10"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="link-room">
+          <label for="link-room-input"
+            >Send the room link to other members:</label
+          >
+          <input
+            class="input input_type_link-room"
+            type="text"
+            id="link-room-input"
+            disabled
+          />
+          <button class="button button_type_copy-link" id="copy-link-btn">
+            Copy link room
+          </button>
+        </div>
+        <button class="button button_type_goto-room" id="goto-room-btn">
+          Go!
+        </button>
+      </section>
+    </main>
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/pages/main/index.js"></script>
   </body>

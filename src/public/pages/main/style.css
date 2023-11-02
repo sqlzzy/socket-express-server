@@ -1,0 +1,73 @@
+.content {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    min-height: 395px;
+}
+
+.name-player {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    margin: 0 0 1rem;
+    min-height: 110px;
+}
+
+.link-room {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    margin: 0 0 3rem;
+    min-height: 200px;
+}
+
+.input {
+    max-width: none;
+    width: auto;
+
+}
+
+.button_type_copy-link {
+    margin: 0.5rem 0 0;
+}
+
+.button_type_goto-room {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .content {
+        margin: 0 auto 1.5rem;
+        max-width: 400px;
+        width: 100%;
+        min-height: 364px;
+    }
+
+    .name-player {
+        width: 100%;
+    }
+
+    .link-room {
+        width: 100%;
+        min-height: 175px;
+    }
+}

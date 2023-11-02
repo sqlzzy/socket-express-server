@@ -1,0 +1,149 @@
+* {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    min-height: calc(100vh - 1.5rem);
+    font: inherit;
+    font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    vertical-align: baseline;
+    color: #000000;
+    background-color: #ffffff;
+    margin: 0.75rem;
+    padding: 1.25rem;
+    border: 5px double #000000;
+}
+
+label {
+    display: block;
+    margin-right: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+input {
+    padding: 0.5rem;
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+    border-style: dashed;
+    font: inherit;
+    font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    vertical-align: baseline;
+    width: calc(100% - 1.25rem);
+}
+
+button {
+    color: #ffffff;
+    background-color: #000;
+    border: 2px solid #000000;
+    padding: 0.5rem;
+    font: inherit;
+    font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    vertical-align: baseline;
+    cursor: pointer;
+    width: 100%;
+}
+
+a {
+    color: #ffffff;
+    text-align: center;
+    -webkit-text-decoration-style: dashed;
+            text-decoration-style: dashed;
+}
+
+main {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    width: 100%;
+}
+
+h1 {
+    margin: 0 0 1.5rem;
+    padding: 0;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+h2 {
+    margin: 0 0 1.5rem;
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.players {
+    padding-top: 2rem;
+    border-top: 1px dashed #000000;
+}
+
+.players__list {
+    margin-top: 0.5rem;
+}
+
+.player {
+    margin-top: 0.25rem;
+}
+
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
+
+@media (min-width: 600px) {
+    body {
+        max-width: 1111px;
+        width: calc(100% - 1.5rem);
+        margin: 0.75rem auto;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    button {
+        width: calc(70% - 1.75rem);
+    }
+
+    input {
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .players {
+        padding-top: 0;
+        border-top: none;
+    }
+}
