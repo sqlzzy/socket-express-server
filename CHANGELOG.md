@@ -87,3 +87,13 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - transferring host rights to the next player after the current host leaves the room
+
+### Version 2.1.0 - 2.11.2023
+
+### Added
+
+- create a list of players in the round
+- display the list of players in a round
+- display messages for players
+- function of waiting for the end of the round for incoming players after the start of the game
+- style for all pages
