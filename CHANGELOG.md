@@ -107,3 +107,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - delete unused variables, add double negation in conditions
+
+### Updated
+
+- socket.io v4.7.1 -> v4.7.2
+- uuid v9.0.0 -> v9.0.1
