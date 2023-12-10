@@ -97,3 +97,13 @@ All notable changes to this project will be documented in this file.
 - display messages for players
 - function of waiting for the end of the round for incoming players after the start of the game
 - style for all pages
+
+### Version 2.1.1 - 10.12.2023
+
+### Added
+
+- name validation test
+
+### Fixed
+
+- delete unused variables, add double negation in conditions
