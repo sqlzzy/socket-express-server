@@ -2,7 +2,7 @@ export default function initStartGame(rooms, io, data) {
   const { idRoom } = data;
   const room = rooms.get(idRoom);
 
-  if (room) {
+  if (!!room) {
     const roomPlayers = room?.roomPlayers;
 
     let roundPlayers = room.round.roundPlayers

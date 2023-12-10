@@ -1,7 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { fileURLToPath, URL } from "url";
+import { fileURLToPath } from "url";
 import { dirname } from "path";
 import createIdRoom from "./server/sockets/createIdRoom.js";
 import joinToRoom from "./server/sockets/joinToRoom.js";

@@ -1,3 +1,5 @@
+import { MAIN_PAGE_URL } from "../../common/js/constants.js";
+
 function checkDoubleUrl(roomPlayers, currentUrl) {
   return roomPlayers.some((player) => player?.currentUrl === currentUrl);
 }
@@ -7,7 +9,7 @@ function findCurrentPlayer(roomPlayers, idPlayer) {
 }
 
 function redirectToMainPage(socketId, io) {
-  io.to(socketId).emit("redirect", "/");
+  io.to(socketId).emit("redirect", MAIN_PAGE_URL);
 
   return;
 }
@@ -17,7 +19,7 @@ function stayInRoom(socket, rooms, io, playerData) {
   const socketId = socket.id;
   const room = rooms.get(idRoom);
 
-  if (room) {
+  if (!!room) {
     const roomPlayers = room?.roomPlayers;
     const isDoubleUrl = checkDoubleUrl(roomPlayers, currentUrl);
     const startGame = room?.round?.startGame;
@@ -31,7 +33,7 @@ function stayInRoom(socket, rooms, io, playerData) {
 
     const currentPlayer = findCurrentPlayer(roomPlayers, idPlayer);
 
-    if (currentPlayer) {
+    if (!!currentPlayer) {
       currentPlayer.idPlayer = socketId;
       currentPlayer.currentUrl = currentUrl;
 
@@ -50,6 +52,7 @@ function stayInRoom(socket, rooms, io, playerData) {
         startGame,
         roundPlayers,
       });
+
       io.to(currentPlayer.idPlayer).emit(
         "getPlayerName",
         currentPlayer.namePlayer
